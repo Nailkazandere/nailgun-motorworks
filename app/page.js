@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const brands = [
   "Honda", "Yamaha", "Kawasaki", "Suzuki",
@@ -16,6 +16,11 @@ const content = {
     about_title: "About",
     about_text: "NailGUN Motorworks will be Brussels' first AI-powered motorcycle repair, maintenance and custom workshop. With 10 years of hands-on experience, we service all major brands with transparent pricing and modern diagnostics.",
     nav: ["Services", "About", "Contact"],
+    stats: [
+      { value: 10, suffix: "+", label: "Years Experience" },
+      { value: 500, suffix: "+", label: "Bikes Serviced" },
+      { value: 9, suffix: "", label: "Brands Covered" },
+    ],
     items: [
       { icon: "🛢", title: "Oil Change", desc: "All brands & engine types", price: "from €45" },
       { icon: "🔴", title: "Brake Service", desc: "Pads, discs, fluid flush", price: "from €60" },
@@ -34,6 +39,11 @@ const content = {
     about_title: "À Propos",
     about_text: "NailGUN Motorworks sera le premier atelier de réparation, entretien et custom moto assisté par IA à Bruxelles. Avec 10 ans d'expérience, nous intervenons sur toutes les grandes marques avec des tarifs transparents et un diagnostic moderne.",
     nav: ["Services", "À Propos", "Contact"],
+    stats: [
+      { value: 10, suffix: "+", label: "Ans d'Expérience" },
+      { value: 500, suffix: "+", label: "Motos Entretenues" },
+      { value: 9, suffix: "", label: "Marques Couvertes" },
+    ],
     items: [
       { icon: "🛢", title: "Vidange Huile", desc: "Toutes marques & types de moteurs", price: "dès €45" },
       { icon: "🔴", title: "Freinage", desc: "Plaquettes, disques, purge liquide", price: "dès €60" },
@@ -44,6 +54,56 @@ const content = {
     ],
   },
 };
+
+function useCountUp(target, duration = 2000, trigger) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!trigger) return;
+    let start = 0;
+    const step = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { setCount(target); clearInterval(timer); }
+      else setCount(Math.floor(start));
+    }, 16);
+    return () => clearInterval(timer);
+  }, [trigger, target, duration]);
+  return count;
+}
+
+function StatCard({ value, suffix, label, trigger }) {
+  const count = useCountUp(value, 1500, trigger);
+  return (
+    <div className="text-center">
+      <div className="text-5xl font-black text-white">
+        {count}<span className="text-red-500">{suffix}</span>
+      </div>
+      <div className="text-xs text-gray-500 uppercase tracking-widest mt-2">{label}</div>
+    </div>
+  );
+}
+
+function Stats({ stats }) {
+  const [triggered, setTriggered] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setTriggered(true); },
+      { threshold: 0.5 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className="w-full max-w-2xl grid grid-cols-3 gap-8 mb-10">
+      {stats.map((s) => (
+        <StatCard key={s.label} {...s} trigger={triggered} />
+      ))}
+    </div>
+  );
+}
 
 function Countdown() {
   const target = new Date("2026-11-01T00:00:00");
@@ -80,9 +140,7 @@ function Countdown() {
           <span className="text-4xl font-black text-white tabular-nums w-16 text-center">
             {String(time[k]).padStart(2, "0")}
           </span>
-          <span className="text-xs text-gray-500 uppercase tracking-widest mt-1">
-            {label}
-          </span>
+          <span className="text-xs text-gray-500 uppercase tracking-widest mt-1">{label}</span>
         </div>
       ))}
     </div>
@@ -139,9 +197,9 @@ function Navbar({ lang, setLang, nav }) {
           nail<span className="text-red-500">GUN</span>
         </div>
         <div className="flex items-center gap-6">
-          <button onClick={() => scrollTo("services")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors">{nav[0]}</button>
-          <button onClick={() => scrollTo("about")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors">{nav[1]}</button>
-          <button onClick={() => scrollTo("contact")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors">{nav[2]}</button>
+          <button onClick={() => scrollTo("services")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors hidden md:block">{nav[0]}</button>
+          <button onClick={() => scrollTo("about")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors hidden md:block">{nav[1]}</button>
+          <button onClick={() => scrollTo("contact")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors hidden md:block">{nav[2]}</button>
           <div className="flex gap-1 ml-4">
             <button onClick={() => setLang("en")} className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "en" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400 hover:border-gray-500"}`}>EN</button>
             <button onClick={() => setLang("fr")} className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "fr" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400 hover:border-gray-500"}`}>FR</button>
@@ -187,6 +245,11 @@ export default function Home() {
           <Countdown />
           <p className="text-gray-600 text-xs tracking-widest uppercase">{t.month}</p>
         </div>
+
+        <div className="w-full max-w-2xl h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent mb-10" />
+
+        {/* İstatistikler */}
+        <Stats stats={t.stats} />
 
         <div className="w-full max-w-2xl h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent mb-10" />
 
