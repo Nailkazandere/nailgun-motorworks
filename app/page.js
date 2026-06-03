@@ -145,7 +145,7 @@ export default function Home() {
 
         <div className="w-full max-w-2xl h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent mb-10" />
 
-        <p className="text-gray-500 text-sm tracking-widest uppercase mb-8">{t.tagline}</p>
+        <p className="text-gray-500 text-xs tracking-widest uppercase mb-8 text-center px-4">{t.tagline}</p>
 
         {/* Butonlar */}
         <div className="flex flex-wrap gap-4 justify-center">
