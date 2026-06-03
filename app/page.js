@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const brands = [
@@ -36,24 +37,24 @@ const content = {
     location: "◆ Bruxelles, Belgique ◆",
     opening: "Ouverture Dans",
     month: "Novembre 2026",
-    tagline: "Indépendant · Toutes Marques · Prix Justes",
+    tagline: "Independant · Toutes Marques · Prix Justes",
     services: "Services",
-    about_title: "À Propos",
-    about_text: "NailGUN Motorworks sera le premier atelier de réparation, entretien et custom moto assisté par IA à Bruxelles. Avec 10 ans d'expérience, nous intervenons sur toutes les grandes marques avec des tarifs transparents et un diagnostic moderne.",
-    gallery_title: "Nos Réalisations",
-    nav: ["Services", "À Propos", "Contact"],
+    about_title: "A Propos",
+    about_text: "NailGUN Motorworks sera le premier atelier de reparation, entretien et custom moto assiste par IA a Bruxelles. Avec 10 ans d'experience, nous intervenons sur toutes les grandes marques avec des tarifs transparents et un diagnostic moderne.",
+    gallery_title: "Nos Realisations",
+    nav: ["Services", "A Propos", "Contact"],
     stats: [
-      { value: 10, suffix: "+", label: "Ans d'Expérience" },
+      { value: 10, suffix: "+", label: "Ans d'Experience" },
       { value: 500, suffix: "+", label: "Motos Entretenues" },
       { value: 9, suffix: "", label: "Marques Couvertes" },
     ],
     items: [
-      { icon: "🛢", title: "Vidange Huile", desc: "Toutes marques & types de moteurs", price: "dès €45" },
-      { icon: "🔴", title: "Freinage", desc: "Plaquettes, disques, purge liquide", price: "dès €60" },
-      { icon: "⛓", title: "Chaîne & Courroie", desc: "Kit chaîne, courroie CVT, pignons", price: "dès €120" },
-      { icon: "🔧", title: "Révision Complète", desc: "Révision 6.000 / 12.000 km", price: "dès €180" },
-      { icon: "🔋", title: "Diagnostic Électronique", desc: "Lecture des codes défauts", price: "dès €40" },
-      { icon: "🏍", title: "Montage Pneus", desc: "Montage, équilibrage, TPMS", price: "dès €20" },
+      { icon: "🛢", title: "Vidange Huile", desc: "Toutes marques & types de moteurs", price: "des €45" },
+      { icon: "🔴", title: "Freinage", desc: "Plaquettes, disques, purge liquide", price: "des €60" },
+      { icon: "⛓", title: "Chaine & Courroie", desc: "Kit chaine, courroie CVT, pignons", price: "des €120" },
+      { icon: "🔧", title: "Revision Complete", desc: "Revision 6.000 / 12.000 km", price: "des €180" },
+      { icon: "🔋", title: "Diagnostic Electronique", desc: "Lecture des codes defauts", price: "des €40" },
+      { icon: "🏍", title: "Montage Pneus", desc: "Montage, equilibrage, TPMS", price: "des €20" },
     ],
   },
 };
@@ -168,23 +169,23 @@ function MarqueeBrands() {
 }
 
 function Navbar({ lang, setLang, nav }) {
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-black/90 backdrop-blur-md border-b border-gray-800" : "bg-transparent"}`}>
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <div className="font-black uppercase tracking-tight text-lg cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+        <div className="font-black uppercase tracking-tight text-lg cursor-pointer" onClick={() => router.push("/")}>
           nail<span className="text-red-500">GUN</span>
         </div>
         <div className="flex items-center gap-6">
-          <button onClick={() => scrollTo("services")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors hidden md:block">{nav[0]}</button>
-          <button onClick={() => scrollTo("about")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors hidden md:block">{nav[1]}</button>
-          <button onClick={() => scrollTo("contact")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors hidden md:block">{nav[2]}</button>
+          <button onClick={() => router.push("/services")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors hidden md:block">{nav[0]}</button>
+          <button onClick={() => router.push("/about")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors hidden md:block">{nav[1]}</button>
+          <button onClick={() => router.push("/contact")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors hidden md:block">{nav[2]}</button>
           <div className="flex gap-1 ml-4">
             <button onClick={() => setLang("en")} className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "en" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400 hover:border-gray-500"}`}>EN</button>
             <button onClick={() => setLang("fr")} className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "fr" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400 hover:border-gray-500"}`}>FR</button>
@@ -298,7 +299,6 @@ export default function Home() {
 
       </main>
 
-      {/* Footer */}
       <footer className="relative z-10 w-full border-t border-gray-900 py-8 px-6">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-center md:text-left">
@@ -312,7 +312,7 @@ export default function Home() {
             <a href="https://instagram.com/nailkazandere" className="text-xs text-gray-500 hover:text-red-500 uppercase tracking-widest transition-colors">Instagram</a>
             <a href="https://wa.me/905433083704" className="text-xs text-gray-500 hover:text-red-500 uppercase tracking-widest transition-colors">WhatsApp</a>
           </div>
-          <p className="text-xs text-gray-700">© 2026 NailGUN Motorworks</p>
+          <p className="text-xs text-gray-700">2026 NailGUN Motorworks</p>
         </div>
       </footer>
 
