@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import Navbar from "../components/Navbar";
 
 const content = {
   en: {
     title: "Contact Us",
-    subtitle: "We'll get back to you as soon as possible",
+    subtitle: "We will get back to you as soon as possible",
     whatsapp_title: "WhatsApp",
     whatsapp_desc: "Fastest response — message us directly",
     whatsapp_btn: "Open WhatsApp",
@@ -20,7 +20,6 @@ const content = {
     youtube_btn: "Subscribe",
     opening_title: "Opening Soon",
     opening_text: "NailGUN Motorworks is opening in Brussels, Belgium in November 2026. We are currently accepting pre-bookings via WhatsApp.",
-    nav: ["Services", "About", "Contact"],
   },
   fr: {
     title: "Contactez-Nous",
@@ -39,13 +38,11 @@ const content = {
     youtube_btn: "S'abonner",
     opening_title: "Ouverture Prochaine",
     opening_text: "NailGUN Motorworks ouvre a Bruxelles, Belgique en novembre 2026. Nous acceptons actuellement les pre-reservations via WhatsApp.",
-    nav: ["Services", "A Propos", "Contact"],
   },
 };
 
 export default function ContactPage() {
   const [lang, setLang] = useState("en");
-  const router = useRouter();
   const t = content[lang];
 
   const channels = [
@@ -85,22 +82,7 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-gray-800">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="font-black uppercase tracking-tight text-lg cursor-pointer" onClick={() => router.push("/")}>
-            nail<span className="text-red-500">GUN</span>
-          </div>
-          <div className="flex items-center gap-6">
-            <button onClick={() => router.push("/services")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors hidden md:block">{t.nav[0]}</button>
-            <button onClick={() => router.push("/about")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors hidden md:block">{t.nav[1]}</button>
-            <button onClick={() => router.push("/contact")} className="text-xs text-white uppercase tracking-widest hidden md:block">{t.nav[2]}</button>
-            <div className="flex gap-1 ml-4">
-              <button onClick={() => setLang("en")} className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "en" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400"}`}>EN</button>
-              <button onClick={() => setLang("fr")} className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "fr" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400"}`}>FR</button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar lang={lang} setLang={setLang} />
 
       <main className="max-w-4xl mx-auto px-6 pt-32 pb-20">
 
