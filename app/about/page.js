@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import Navbar from "../components/Navbar";
 
 const content = {
   en: {
@@ -47,7 +47,7 @@ const content = {
 
 export default function AboutPage() {
   const [lang, setLang] = useState("en");
-  const router = useRouter();
+  
   const t = content[lang];
 
   return (
