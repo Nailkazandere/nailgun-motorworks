@@ -15,6 +15,7 @@ const content = {
     services: "Services",
     about_title: "About",
     about_text: "NailGUN Motorworks will be Brussels' first AI-powered motorcycle repair, maintenance and custom workshop. With 10 years of hands-on experience, we service all major brands with transparent pricing and modern diagnostics.",
+    nav: ["Services", "About", "Contact"],
     items: [
       { icon: "🛢", title: "Oil Change", desc: "All brands & engine types", price: "from €45" },
       { icon: "🔴", title: "Brake Service", desc: "Pads, discs, fluid flush", price: "from €60" },
@@ -32,6 +33,7 @@ const content = {
     services: "Services",
     about_title: "À Propos",
     about_text: "NailGUN Motorworks sera le premier atelier de réparation, entretien et custom moto assisté par IA à Bruxelles. Avec 10 ans d'expérience, nous intervenons sur toutes les grandes marques avec des tarifs transparents et un diagnostic moderne.",
+    nav: ["Services", "À Propos", "Contact"],
     items: [
       { icon: "🛢", title: "Vidange Huile", desc: "Toutes marques & types de moteurs", price: "dès €45" },
       { icon: "🔴", title: "Freinage", desc: "Plaquettes, disques, purge liquide", price: "dès €60" },
@@ -101,9 +103,7 @@ function MarqueeBrands() {
           animation: marquee 18s linear infinite;
           width: max-content;
         }
-        .marquee-track:hover {
-          animation-play-state: paused;
-        }
+        .marquee-track:hover { animation-play-state: paused; }
       `}</style>
       <div className="marquee-track">
         {repeated.map((brand, i) => (
@@ -119,6 +119,39 @@ function MarqueeBrands() {
   );
 }
 
+function Navbar({ lang, setLang, nav }) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const scrollTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-black/90 backdrop-blur-md border-b border-gray-800" : "bg-transparent"}`}>
+      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="font-black uppercase tracking-tight text-lg cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+          nail<span className="text-red-500">GUN</span>
+        </div>
+        <div className="flex items-center gap-6">
+          <button onClick={() => scrollTo("services")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors">{nav[0]}</button>
+          <button onClick={() => scrollTo("about")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors">{nav[1]}</button>
+          <button onClick={() => scrollTo("contact")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors">{nav[2]}</button>
+          <div className="flex gap-1 ml-4">
+            <button onClick={() => setLang("en")} className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "en" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400 hover:border-gray-500"}`}>EN</button>
+            <button onClick={() => setLang("fr")} className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "fr" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400 hover:border-gray-500"}`}>FR</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
 export default function Home() {
   const [lang, setLang] = useState("en");
   const t = content[lang];
@@ -126,19 +159,16 @@ export default function Home() {
   return (
     <main className="relative min-h-screen text-white overflow-hidden">
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/bg.jpg')" }} />
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 bg-black/55" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#1a000055_0%,_#000000aa_70%)]" />
       <div className="absolute top-0 left-0 right-0 h-px bg-red-600 opacity-60" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-red-600 opacity-30" />
 
-      <div className="absolute top-4 right-4 z-20 flex gap-1">
-        <button onClick={() => setLang("en")} className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "en" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400 hover:border-gray-500"}`}>EN</button>
-        <button onClick={() => setLang("fr")} className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "fr" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400 hover:border-gray-500"}`}>FR</button>
-      </div>
+      <Navbar lang={lang} setLang={setLang} nav={t.nav} />
 
-      <div className="relative z-10 flex flex-col items-center px-6 py-20">
+      <div className="relative z-10 flex flex-col items-center px-6 pt-32 pb-20">
 
-        {/* Logo */}
+        {/* Hero */}
         <div className="text-center space-y-2 mb-10">
           <div className="text-xs text-red-500 tracking-[0.3em] uppercase mb-4">{t.location}</div>
           <h1 className="text-6xl font-black tracking-tight uppercase leading-none">
@@ -146,7 +176,7 @@ export default function Home() {
             <br />
             <span className="text-4xl font-light tracking-[0.2em]">motorworks</span>
           </h1>
-          <p className="text-xs text-gray-600 tracking-widest uppercase mt-4">Brussels' First AI-Powered Motorcycle Workshop</p>
+          <p className="text-xs text-gray-400 tracking-widest uppercase mt-4">Brussels' First AI-Powered Motorcycle Workshop</p>
         </div>
 
         <div className="w-full max-w-2xl h-px bg-gradient-to-r from-transparent via-red-600 to-transparent mb-10" />
@@ -161,7 +191,7 @@ export default function Home() {
         <div className="w-full max-w-2xl h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent mb-10" />
 
         {/* Hizmetler */}
-        <div className="w-full max-w-3xl mb-10">
+        <div id="services" className="w-full max-w-3xl mb-10 scroll-mt-20">
           <p className="text-center text-xs text-gray-500 uppercase tracking-widest mb-6">{t.services}</p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {t.items.map((s) => (
@@ -181,7 +211,7 @@ export default function Home() {
         <MarqueeBrands />
 
         {/* Hakkımda */}
-        <div className="w-full max-w-2xl mb-10 text-center">
+        <div id="about" className="w-full max-w-2xl mb-10 text-center scroll-mt-20">
           <p className="text-xs text-gray-500 uppercase tracking-widest mb-4">{t.about_title}</p>
           <p className="text-gray-300 text-sm leading-7">{t.about_text}</p>
         </div>
@@ -191,7 +221,7 @@ export default function Home() {
         <p className="text-gray-500 text-xs tracking-widest uppercase mb-8 text-center px-4">{t.tagline}</p>
 
         {/* Butonlar */}
-        <div className="flex flex-wrap gap-4 justify-center">
+        <div id="contact" className="flex flex-wrap gap-4 justify-center scroll-mt-20">
           <a href="https://www.youtube.com/@nailGUN-motorworks" className="px-8 py-3 bg-red-600 hover:bg-red-700 rounded font-bold tracking-widest uppercase text-sm transition-all hover:scale-105">YouTube</a>
           <a href="https://instagram.com/nailkazandere" className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded font-bold tracking-widest uppercase text-sm transition-all hover:scale-105">Instagram</a>
           <a href="https://wa.me/905433083704" className="px-8 py-3 bg-green-600 hover:bg-green-700 rounded font-bold tracking-widest uppercase text-sm transition-all hover:scale-105">WhatsApp</a>
