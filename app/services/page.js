@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import Navbar from "../components/Navbar";
 
 const services = {
   en: [
@@ -107,27 +107,11 @@ const services = {
 
 export default function ServicesPage() {
   const [lang, setLang] = useState("en");
-  const router = useRouter();
   const s = services[lang];
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-gray-800">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="font-black uppercase tracking-tight text-lg cursor-pointer" onClick={() => router.push("/")}>
-            nail<span className="text-red-500">GUN</span>
-          </div>
-          <div className="flex items-center gap-6">
-            <button onClick={() => router.push("/services")} className="text-xs text-white uppercase tracking-widest hidden md:block">Services</button>
-            <button onClick={() => router.push("/about")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors hidden md:block">About</button>
-            <button onClick={() => router.push("/contact")} className="text-xs text-gray-400 hover:text-white uppercase tracking-widest transition-colors hidden md:block">Contact</button>
-            <div className="flex gap-1 ml-4">
-              <button onClick={() => setLang("en")} className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "en" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400"}`}>EN</button>
-              <button onClick={() => setLang("fr")} className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "fr" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400"}`}>FR</button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar lang={lang} setLang={setLang} />
 
       <main className="max-w-5xl mx-auto px-6 pt-32 pb-20">
         <div className="text-center mb-16">
