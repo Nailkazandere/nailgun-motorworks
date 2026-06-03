@@ -9,12 +9,12 @@ const content = {
     tagline: "Independent · All Brands · Fair Prices",
     services: "Services",
     items: [
-      { icon: "🛢", title: "Oil Change", desc: "All brands & engine types" },
-      { icon: "🔴", title: "Brake Service", desc: "Pads, discs, fluid flush" },
-      { icon: "⛓", title: "Chain & Belt", desc: "Chain kit, CVT belt, sprockets" },
-      { icon: "🔧", title: "Full Service", desc: "6.000 / 12.000 km revision" },
-      { icon: "🔋", title: "Diagnostics", desc: "Electronic fault scanning" },
-      { icon: "🏍", title: "Tyre Fitting", desc: "Mounting, balancing, TPMS" },
+      { icon: "🛢", title: "Oil Change", desc: "All brands & engine types", price: "from €45" },
+      { icon: "🔴", title: "Brake Service", desc: "Pads, discs, fluid flush", price: "from €60" },
+      { icon: "⛓", title: "Chain & Belt", desc: "Chain kit, CVT belt, sprockets", price: "from €120" },
+      { icon: "🔧", title: "Full Service", desc: "6.000 / 12.000 km revision", price: "from €180" },
+      { icon: "🔋", title: "Diagnostics", desc: "Electronic fault scanning", price: "from €40" },
+      { icon: "🏍", title: "Tyre Fitting", desc: "Mounting, balancing, TPMS", price: "from €20" },
     ],
   },
   fr: {
@@ -24,12 +24,12 @@ const content = {
     tagline: "Indépendant · Toutes Marques · Prix Justes",
     services: "Services",
     items: [
-      { icon: "🛢", title: "Vidange Huile", desc: "Toutes marques & types de moteurs" },
-      { icon: "🔴", title: "Freinage", desc: "Plaquettes, disques, purge liquide" },
-      { icon: "⛓", title: "Chaîne & Courroie", desc: "Kit chaîne, courroie CVT, pignons" },
-      { icon: "🔧", title: "Révision Complète", desc: "Révision 6.000 / 12.000 km" },
-      { icon: "🔋", title: "Diagnostic Électronique", desc: "Lecture des codes défauts" },
-      { icon: "🏍", title: "Montage Pneus", desc: "Montage, équilibrage, TPMS" },
+      { icon: "🛢", title: "Vidange Huile", desc: "Toutes marques & types de moteurs", price: "dès €45" },
+      { icon: "🔴", title: "Freinage", desc: "Plaquettes, disques, purge liquide", price: "dès €60" },
+      { icon: "⛓", title: "Chaîne & Courroie", desc: "Kit chaîne, courroie CVT, pignons", price: "dès €120" },
+      { icon: "🔧", title: "Révision Complète", desc: "Révision 6.000 / 12.000 km", price: "dès €180" },
+      { icon: "🔋", title: "Diagnostic Électronique", desc: "Lecture des codes défauts", price: "dès €40" },
+      { icon: "🏍", title: "Montage Pneus", desc: "Montage, équilibrage, TPMS", price: "dès €20" },
     ],
   },
 };
@@ -90,25 +90,13 @@ export default function Home() {
       <div className="absolute top-0 left-0 right-0 h-px bg-red-600 opacity-60" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-red-600 opacity-30" />
 
-      {/* Dil toggle */}
       <div className="absolute top-4 right-4 z-20 flex gap-1">
-        <button
-          onClick={() => setLang("en")}
-          className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "en" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400 hover:border-gray-500"}`}
-        >
-          EN
-        </button>
-        <button
-          onClick={() => setLang("fr")}
-          className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "fr" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400 hover:border-gray-500"}`}
-        >
-          FR
-        </button>
+        <button onClick={() => setLang("en")} className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "en" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400 hover:border-gray-500"}`}>EN</button>
+        <button onClick={() => setLang("fr")} className={`px-3 py-1 text-xs font-bold rounded uppercase tracking-wider transition-all ${lang === "fr" ? "bg-red-600 text-white" : "border border-gray-700 text-gray-400 hover:border-gray-500"}`}>FR</button>
       </div>
 
       <div className="relative z-10 flex flex-col items-center px-6 py-20">
 
-        {/* Logo */}
         <div className="text-center space-y-2 mb-10">
           <div className="text-xs text-red-500 tracking-[0.3em] uppercase mb-4">{t.location}</div>
           <h1 className="text-6xl font-black tracking-tight uppercase leading-none">
@@ -120,7 +108,6 @@ export default function Home() {
 
         <div className="w-full max-w-2xl h-px bg-gradient-to-r from-transparent via-red-600 to-transparent mb-10" />
 
-        {/* Geri sayım */}
         <div className="text-center space-y-4 mb-10">
           <p className="text-gray-400 uppercase tracking-[0.2em] text-sm">{t.opening}</p>
           <Countdown />
@@ -129,7 +116,6 @@ export default function Home() {
 
         <div className="w-full max-w-2xl h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent mb-10" />
 
-        {/* Hizmetler */}
         <div className="w-full max-w-3xl mb-10">
           <p className="text-center text-xs text-gray-500 uppercase tracking-widest mb-6">{t.services}</p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -138,6 +124,7 @@ export default function Home() {
                 <div className="text-2xl mb-2">{s.icon}</div>
                 <div className="text-sm font-bold uppercase tracking-wider text-white">{s.title}</div>
                 <div className="text-xs text-gray-500 mt-1">{s.desc}</div>
+                <div className="text-xs text-red-500 font-bold mt-2">{s.price}</div>
               </div>
             ))}
           </div>
@@ -147,7 +134,6 @@ export default function Home() {
 
         <p className="text-gray-500 text-xs tracking-widest uppercase mb-8 text-center px-4">{t.tagline}</p>
 
-        {/* Butonlar */}
         <div className="flex flex-wrap gap-4 justify-center">
           <a href="https://www.youtube.com/@nailGUN-motorworks" className="px-8 py-3 bg-red-600 hover:bg-red-700 rounded font-bold tracking-widest uppercase text-sm transition-all hover:scale-105">YouTube</a>
           <a href="https://instagram.com/nailkazandere" className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded font-bold tracking-widest uppercase text-sm transition-all hover:scale-105">Instagram</a>
