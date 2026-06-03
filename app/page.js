@@ -126,7 +126,7 @@ export default function Home() {
   return (
     <main className="relative min-h-screen text-white overflow-hidden">
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/bg.jpg')" }} />
-      <div className="absolute inset-0 bg-black/75" />
+      <div className="absolute inset-0 bg-black/50" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#1a000055_0%,_#000000aa_70%)]" />
       <div className="absolute top-0 left-0 right-0 h-px bg-red-600 opacity-60" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-red-600 opacity-30" />
