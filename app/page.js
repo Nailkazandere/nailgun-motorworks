@@ -1,6 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 
+const brands = [
+  "Honda", "Yamaha", "Kawasaki", "Suzuki",
+  "Ducati", "KTM", "Triumph", "Royal Enfield", "Aprilia"
+];
+
 const content = {
   en: {
     location: "◆ Brussels, Belgium ◆",
@@ -8,6 +13,8 @@ const content = {
     month: "November 2026",
     tagline: "Independent · All Brands · Fair Prices",
     services: "Services",
+    about_title: "About",
+    about_text: "NailGUN Motorworks will be Brussels' first AI-powered motorcycle repair, maintenance and custom workshop. With 10 years of hands-on experience, we service all major brands with transparent pricing and modern diagnostics.",
     items: [
       { icon: "🛢", title: "Oil Change", desc: "All brands & engine types", price: "from €45" },
       { icon: "🔴", title: "Brake Service", desc: "Pads, discs, fluid flush", price: "from €60" },
@@ -23,6 +30,8 @@ const content = {
     month: "Novembre 2026",
     tagline: "Indépendant · Toutes Marques · Prix Justes",
     services: "Services",
+    about_title: "À Propos",
+    about_text: "NailGUN Motorworks sera le premier atelier de réparation, entretien et custom moto assisté par IA à Bruxelles. Avec 10 ans d'expérience, nous intervenons sur toutes les grandes marques avec des tarifs transparents et un diagnostic moderne.",
     items: [
       { icon: "🛢", title: "Vidange Huile", desc: "Toutes marques & types de moteurs", price: "dès €45" },
       { icon: "🔴", title: "Freinage", desc: "Plaquettes, disques, purge liquide", price: "dès €60" },
@@ -78,6 +87,38 @@ function Countdown() {
   );
 }
 
+function MarqueeBrands() {
+  const repeated = [...brands, ...brands, ...brands];
+  return (
+    <div className="w-full overflow-hidden mb-10">
+      <style>{`
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-33.333%); }
+        }
+        .marquee-track {
+          display: flex;
+          animation: marquee 18s linear infinite;
+          width: max-content;
+        }
+        .marquee-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+      <div className="marquee-track">
+        {repeated.map((brand, i) => (
+          <div key={i} className="flex items-center">
+            <span className="text-gray-400 font-black uppercase tracking-widest text-sm px-8 hover:text-red-500 transition-colors cursor-default whitespace-nowrap">
+              {brand}
+            </span>
+            <span className="text-red-800 text-xs">◆</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const [lang, setLang] = useState("en");
   const t = content[lang];
@@ -97,6 +138,7 @@ export default function Home() {
 
       <div className="relative z-10 flex flex-col items-center px-6 py-20">
 
+        {/* Logo */}
         <div className="text-center space-y-2 mb-10">
           <div className="text-xs text-red-500 tracking-[0.3em] uppercase mb-4">{t.location}</div>
           <h1 className="text-6xl font-black tracking-tight uppercase leading-none">
@@ -104,10 +146,12 @@ export default function Home() {
             <br />
             <span className="text-4xl font-light tracking-[0.2em]">motorworks</span>
           </h1>
+          <p className="text-xs text-gray-600 tracking-widest uppercase mt-4">Brussels' First AI-Powered Motorcycle Workshop</p>
         </div>
 
         <div className="w-full max-w-2xl h-px bg-gradient-to-r from-transparent via-red-600 to-transparent mb-10" />
 
+        {/* Geri sayım */}
         <div className="text-center space-y-4 mb-10">
           <p className="text-gray-400 uppercase tracking-[0.2em] text-sm">{t.opening}</p>
           <Countdown />
@@ -116,6 +160,7 @@ export default function Home() {
 
         <div className="w-full max-w-2xl h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent mb-10" />
 
+        {/* Hizmetler */}
         <div className="w-full max-w-3xl mb-10">
           <p className="text-center text-xs text-gray-500 uppercase tracking-widest mb-6">{t.services}</p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -132,8 +177,20 @@ export default function Home() {
 
         <div className="w-full max-w-2xl h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent mb-10" />
 
+        {/* Kayan marka bandı */}
+        <MarqueeBrands />
+
+        {/* Hakkımda */}
+        <div className="w-full max-w-2xl mb-10 text-center">
+          <p className="text-xs text-gray-500 uppercase tracking-widest mb-4">{t.about_title}</p>
+          <p className="text-gray-300 text-sm leading-7">{t.about_text}</p>
+        </div>
+
+        <div className="w-full max-w-2xl h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent mb-10" />
+
         <p className="text-gray-500 text-xs tracking-widest uppercase mb-8 text-center px-4">{t.tagline}</p>
 
+        {/* Butonlar */}
         <div className="flex flex-wrap gap-4 justify-center">
           <a href="https://www.youtube.com/@nailGUN-motorworks" className="px-8 py-3 bg-red-600 hover:bg-red-700 rounded font-bold tracking-widest uppercase text-sm transition-all hover:scale-105">YouTube</a>
           <a href="https://instagram.com/nailkazandere" className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded font-bold tracking-widest uppercase text-sm transition-all hover:scale-105">Instagram</a>
