@@ -198,8 +198,8 @@ function Navbar({ lang, setLang, nav }) {
 function Gallery({ title }) {
   const images = [
     { src: "/gallery1.jpg", label: "Custom Build" },
-    { src: "/gallery2.jpg", label: "Service" },
-    { src: "/gallery3.jpg", label: "Maintenance" },
+    { src: "/gallery2.jpg", label: "Workshop" },
+    { src: "/gallery3.jpg", label: "Engine Detail" },
   ];
   return (
     <div id="gallery" className="w-full max-w-4xl mb-10 scroll-mt-20">
@@ -207,12 +207,7 @@ function Gallery({ title }) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {images.map((img) => (
           <div key={img.src} className="relative group overflow-hidden rounded-lg border border-gray-800 hover:border-red-600 transition-all" style={{ height: "220px" }}>
-            <Image
-              src={img.src}
-              alt={img.label}
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
-            />
+            <Image src={img.src} alt={img.label} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all" />
             <div className="absolute bottom-3 left-3">
               <span className="text-xs text-white font-bold uppercase tracking-widest">{img.label}</span>
@@ -229,16 +224,15 @@ export default function Home() {
   const t = content[lang];
 
   return (
-    <main className="relative min-h-screen text-white overflow-hidden">
-      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/bg.jpg')" }} />
-      <div className="absolute inset-0 bg-black/55" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#1a000055_0%,_#000000aa_70%)]" />
-      <div className="absolute top-0 left-0 right-0 h-px bg-red-600 opacity-60" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-red-600 opacity-30" />
+    <div className="relative min-h-screen text-white">
+      <div className="fixed inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/bg.jpg')" }} />
+      <div className="fixed inset-0 bg-black/55" />
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_center,_#1a000055_0%,_#000000aa_70%)]" />
+      <div className="fixed top-0 left-0 right-0 h-px bg-red-600 opacity-60 z-10" />
 
       <Navbar lang={lang} setLang={setLang} nav={t.nav} />
 
-      <div className="relative z-10 flex flex-col items-center px-6 pt-32 pb-20">
+      <main className="relative z-10 flex flex-col items-center px-6 pt-32 pb-0">
 
         <div className="text-center space-y-2 mb-10">
           <div className="text-xs text-red-500 tracking-[0.3em] uppercase mb-4">{t.location}</div>
@@ -295,14 +289,33 @@ export default function Home() {
 
         <p className="text-gray-500 text-xs tracking-widest uppercase mb-8 text-center px-4">{t.tagline}</p>
 
-        <div id="contact" className="flex flex-wrap gap-4 justify-center scroll-mt-20">
+        <div id="contact" className="flex flex-wrap gap-4 justify-center scroll-mt-20 mb-16">
           <a href="https://www.youtube.com/@nailGUN-motorworks" className="px-8 py-3 bg-red-600 hover:bg-red-700 rounded font-bold tracking-widest uppercase text-sm transition-all hover:scale-105">YouTube</a>
           <a href="https://instagram.com/nailkazandere" className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded font-bold tracking-widest uppercase text-sm transition-all hover:scale-105">Instagram</a>
           <a href="https://wa.me/905433083704" className="px-8 py-3 bg-green-600 hover:bg-green-700 rounded font-bold tracking-widest uppercase text-sm transition-all hover:scale-105">WhatsApp</a>
           <a href="mailto:info@nailgunmotorworks.com" className="px-8 py-3 border border-gray-700 hover:border-red-600 hover:text-red-500 rounded font-bold tracking-widest uppercase text-sm transition-all hover:scale-105">Contact</a>
         </div>
 
-      </div>
-    </main>
+      </main>
+
+      {/* Footer */}
+      <footer className="relative z-10 w-full border-t border-gray-900 py-8 px-6">
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="text-center md:text-left">
+            <div className="font-black uppercase tracking-tight text-lg">
+              nail<span className="text-red-500">GUN</span> <span className="font-light text-gray-500">motorworks</span>
+            </div>
+            <p className="text-xs text-gray-600 mt-1">Brussels, Belgium · Opening November 2026</p>
+          </div>
+          <div className="flex gap-6">
+            <a href="https://www.youtube.com/@nailGUN-motorworks" className="text-xs text-gray-500 hover:text-red-500 uppercase tracking-widest transition-colors">YouTube</a>
+            <a href="https://instagram.com/nailkazandere" className="text-xs text-gray-500 hover:text-red-500 uppercase tracking-widest transition-colors">Instagram</a>
+            <a href="https://wa.me/905433083704" className="text-xs text-gray-500 hover:text-red-500 uppercase tracking-widest transition-colors">WhatsApp</a>
+          </div>
+          <p className="text-xs text-gray-700">© 2026 NailGUN Motorworks</p>
+        </div>
+      </footer>
+
+    </div>
   );
 }
